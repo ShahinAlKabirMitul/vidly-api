@@ -31,14 +31,18 @@ function validateUser(user) {
     name: Joi.string()
       .min(3)
       .max(50)
-      .required(),
+      .required()
+      .trim(),
+
     email: Joi.string()
       .min(3)
       .max(255)
+      .trim()
       .required()
       .email(),
     password: Joi.string()
       .min(5)
+      .trim()
       .max(255)
       .required(),
   };

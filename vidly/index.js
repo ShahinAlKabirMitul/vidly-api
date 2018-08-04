@@ -15,8 +15,15 @@ const rentals = require('./routes/rentals');
 const express = require('express');
 const app = express();
 
+process.on('uncaughtException', ex => {
+  console.log('WE GOT AN UNCAUGHT EXCEPTION');
+  winston.error(ex.message, ex);
+});
+
 winston.add(winston.transports.File, { filename: 'logfile.log' });
 winston.add(winston.transports.MongoDB, { db: 'mongodb://localhost/vidly' });
+
+//throw new Error('Something failed during startup');
 
 console.log(config);
 if (!config.get('jwtPrivateKey')) {

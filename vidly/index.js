@@ -1,4 +1,5 @@
- require('express-async-errors')
+const winston = require('winston');
+require('express-async-errors');
 const config = require('config');
 const error = require('./middleware/error');
 const mongoose = require('mongoose');
@@ -12,6 +13,8 @@ const auth = require('./routes/auth');
 const rentals = require('./routes/rentals');
 const express = require('express');
 const app = express();
+
+winston.add(winston.transports.File, { filename: 'logfile.log' });
 
 console.log(config);
 if (!config.get('jwtPrivateKey')) {

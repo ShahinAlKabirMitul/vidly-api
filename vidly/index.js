@@ -1,3 +1,4 @@
+ require('express-async-errors')
 const config = require('config');
 const error = require('./middleware/error');
 const mongoose = require('mongoose');

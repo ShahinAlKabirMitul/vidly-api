@@ -15,13 +15,19 @@ const rentals = require('./routes/rentals');
 const express = require('express');
 const app = express();
 
-process.on('uncaughtException', ex => {
-  console.log('WE GOT AN UNCAUGHT EXCEPTION');
-  winston.error(ex.message, ex);
+winston.handleExceptions(
+  new winston.transports.File({ filename: 'uncaughtException.log' })
+);
+
+process.on('unhandledRejection', ex => {
+  throw ex;
 });
 
 winston.add(winston.transports.File, { filename: 'logfile.log' });
 winston.add(winston.transports.MongoDB, { db: 'mongodb://localhost/vidly' });
+
+const p = Promise.reject(new Error('Something failed miserable !'));
+p.then(() => console.log('Done'));
 
 //throw new Error('Something failed during startup');
 
